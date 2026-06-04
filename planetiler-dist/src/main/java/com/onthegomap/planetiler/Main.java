@@ -62,6 +62,8 @@ public class Main {
 
     entry("generate-shortbread", ShortbreadMain::main),
     entry("shortbread", ShortbreadMain::main),
+    entry("generate-shortbread-1.1", shortbreadVersion("1.1")),
+    entry("shortbread-1.1", shortbreadVersion("1.1")),
     // the previous YAML implementation remains available via: custom --schema=shortbread.yml
 
     entry("verify", SchemaValidator::main),
@@ -86,6 +88,13 @@ public class Main {
     entry("top-osm-tiles", TopOsmTiles::main),
     entry("compare", CompareArchives::main)
   );
+
+  private static EntryPoint shortbreadVersion(String version) {
+    return args -> ShortbreadMain.main(Stream.concat(
+      Stream.of("--shortbread_version=" + version),
+      Stream.of(args)
+    ).toArray(String[]::new));
+  }
 
   public static void main(String[] args) throws Exception {
     EntryPoint task = DEFAULT_TASK;
