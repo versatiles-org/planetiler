@@ -12,6 +12,7 @@ import com.onthegomap.planetiler.examples.ToiletsOverlay;
 import com.onthegomap.planetiler.examples.ToiletsOverlayLowLevelApi;
 import com.onthegomap.planetiler.examples.overture.OvertureBasemap;
 import com.onthegomap.planetiler.mbtiles.Verify;
+import com.onthegomap.planetiler.shortbread.ShortbreadMain;
 import com.onthegomap.planetiler.util.CompareArchives;
 import com.onthegomap.planetiler.util.TileSizeStats;
 import com.onthegomap.planetiler.util.TopOsmTiles;
@@ -59,8 +60,9 @@ public class Main {
     entry("generate-custom", ConfiguredMapMain::main),
     entry("custom", ConfiguredMapMain::main),
 
-    entry("generate-shortbread", bundledSchema("shortbread.yml")),
-    entry("shortbread", bundledSchema("shortbread.yml")),
+    entry("generate-shortbread", ShortbreadMain::main),
+    entry("shortbread", ShortbreadMain::main),
+    // the previous YAML implementation remains available via: custom --schema=shortbread.yml
 
     entry("verify", SchemaValidator::main),
     entry("verify-custom", SchemaValidator::main),
@@ -84,13 +86,6 @@ public class Main {
     entry("top-osm-tiles", TopOsmTiles::main),
     entry("compare", CompareArchives::main)
   );
-
-  private static EntryPoint bundledSchema(String path) {
-    return args -> ConfiguredMapMain.main(Stream.concat(
-      Stream.of("--schema=" + path),
-      Stream.of(args)
-    ).toArray(String[]::new));
-  }
 
   public static void main(String[] args) throws Exception {
     EntryPoint task = DEFAULT_TASK;
